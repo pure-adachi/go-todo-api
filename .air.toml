@@ -11,7 +11,7 @@ cmd = "go build -o ./build/main ./cmd"
 # Binary file yields from `cmd`.
 bin = "build/main"
 # Customize binary.
-full_bin = "GO_ENV=development ./build/main web"
+full_bin = "./build/main web"
 # Watch these filename extensions.
 include_ext = ["go"]
 # Ignore these filename extensions or directories.

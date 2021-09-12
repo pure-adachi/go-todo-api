@@ -28,6 +28,5 @@ FROM alpine:3.14
 COPY --from=builder /main .
 
 ENV PORT=${PORT}
-ENV GO_ENV=production
 
 ENTRYPOINT ["/main web"]
