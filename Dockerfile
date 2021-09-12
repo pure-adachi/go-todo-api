@@ -14,7 +14,7 @@ RUN apk update \
 
 WORKDIR /myapp/backend
 
-# COPY go.mod go.sum ./
+COPY go.mod ./
 
 # ライブラリのインストール
 RUN go mod download
@@ -28,5 +28,6 @@ FROM alpine:3.14
 COPY --from=builder /main .
 
 ENV PORT=${PORT}
+ENV GO_ENV=production
 
-ENTRYPOINT [ "/main web" ]
+ENTRYPOINT ["/main web"]
