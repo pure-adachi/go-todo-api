@@ -27,7 +27,7 @@ func Env_load() {
 }
 
 func sample(w http.ResponseWriter, _r *http.Request){
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", os.Getenv("CORS_ORIGIN"))
 
 	ping := map[string]string{"message": "Hello World!"}
 
