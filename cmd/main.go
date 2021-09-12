@@ -19,6 +19,10 @@ func main() {
 }
 
 func Env_load() {
+	log.Print("================")
+	log.Print(os.Getenv("GO_ENV"))
+	log.Print(os.Getenv("CORS_ORIGIN"))
+	log.Print("================")
 	err := godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("GO_ENV")))
 
 	if err != nil {
