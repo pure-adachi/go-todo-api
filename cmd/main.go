@@ -3,12 +3,15 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 )
 
 func main() {
 	http.HandleFunc("/api/sample", sample)
 
-	http.ListenAndServe(":8000", nil)
+	port := os.Getenv("PORT")
+
+	http.ListenAndServe(":" + port, nil)
 }
 
 func sample(w http.ResponseWriter, _r *http.Request){
