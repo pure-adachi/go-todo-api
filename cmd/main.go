@@ -1,25 +1,43 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	http.HandleFunc("/api/sample", sample)
-
 	port := os.Getenv("PORT")
 
-	http.ListenAndServe(":" + port, nil)
+	r := gin.Default()
+	r.GET("/api/sample", getHelloWorld)
+	r.GET("/api/todos", getTodos)
+
+	r.Run(":" + port)
 }
 
-func sample(w http.ResponseWriter, _r *http.Request){
-	w.Header().Set("Access-Control-Allow-Origin", os.Getenv("CORS_ORIGIN"))
+func getHelloWorld(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", os.Getenv("CORS_ORIGIN"))
 
-	ping := map[string]string{"message": "Hello World!"}
+	c.JSON(http.StatusOK, gin.H { "message": "Hello World!" })
+}
 
-	res, _ := json.Marshal(ping)
+func getTodos(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", os.Getenv("CORS_ORIGIN"))
 
-	w.Write(res)
+	type Todo struct {
+		Id int
+		Title string
+	}
+
+	todos := [...] Todo {
+		{ Id: 1, Title: "TODO 1" },
+		{ Id: 2, Title: "TODO 2" },
+		{ Id: 3, Title: "TODO 3" },
+		{ Id: 4, Title: "TODO 4" },
+		{ Id: 5, Title: "TODO 5" },
+	}
+
+	c.JSON(http.StatusOK, gin.H { "todos": todos })
 }
