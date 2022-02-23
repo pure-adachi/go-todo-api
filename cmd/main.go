@@ -24,15 +24,14 @@ func main() {
 	r.GET("/api/sample", getHelloWorld)
 	r.GET("/api/todos", getTodos)
 	r.POST("/api/todos", addTodo)
-	r.PATCH("/api/todos/:Id", updateTodo)
-	r.DELETE("/api/todos/:Id", deleteTodo)
+	r.PATCH("/api/todos/:ID", updateTodo)
+	r.DELETE("/api/todos/:ID", deleteTodo)
 
 	r.Run(":" + port)
 }
 
 type Todo struct {
 	gorm.Model
-	Id    uint64 `gorm:"primaryKey;autoIncrement`
 	Title string
 }
 
@@ -72,6 +71,8 @@ func addTodo(c *gin.Context) {
 	db := gormConnect()
 
 	db.Create(&newTodo)
+
+	c.JSON(http.StatusOK, gin.H { "todo": newTodo })
 }
 
 func updateTodo(c *gin.Context) {
@@ -79,7 +80,7 @@ func updateTodo(c *gin.Context) {
 		Title string
 	}
 
-	Id := c.Param("Id")
+	Id := c.Param("ID")
 	id, _ := strconv.Atoi(Id)
 
 	db := gormConnect()
@@ -92,10 +93,12 @@ func updateTodo(c *gin.Context) {
 	c.BindJSON(&inputTodo)
 
 	db.Model(&todo).Update("Title", inputTodo.Title)
+
+	c.JSON(http.StatusOK, gin.H { "todo": todo })
 }
 
 func deleteTodo(c *gin.Context) {
-	Id := c.Param("Id")
+	Id := c.Param("ID")
 	id, _ := strconv.Atoi(Id)
 
 	db := gormConnect()
