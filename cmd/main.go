@@ -17,9 +17,9 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-    AllowOrigins: []string{os.Getenv("CORS_ORIGIN")},
-    AllowMethods: []string{"PUT", "PATCH", "DELETE"},
-  }))
+		AllowOrigins: []string{os.Getenv("CORS_ORIGIN")},
+		AllowMethods: []string{"PUT", "PATCH", "DELETE"},
+	}))
 
 	r.GET("/api/sample", getHelloWorld)
 	r.GET("/api/todos", getTodos)
